@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleSendingHost", "SimpleSendingHost\SimpleSendingHost.csproj", "{596CEFBA-6762-422C-9E1B-F1AF21898F53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleProcessHost", "MultipleProcessHost\MultipleProcessHost.csproj", "{25962A16-BF8F-4346-BA4D-7F1F80FB7AD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{8A5C4AFA-644D-45B3-8450-8CAFE770F64A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{596CEFBA-6762-422C-9E1B-F1AF21898F53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{596CEFBA-6762-422C-9E1B-F1AF21898F53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{596CEFBA-6762-422C-9E1B-F1AF21898F53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{596CEFBA-6762-422C-9E1B-F1AF21898F53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25962A16-BF8F-4346-BA4D-7F1F80FB7AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25962A16-BF8F-4346-BA4D-7F1F80FB7AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25962A16-BF8F-4346-BA4D-7F1F80FB7AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25962A16-BF8F-4346-BA4D-7F1F80FB7AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A5C4AFA-644D-45B3-8450-8CAFE770F64A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A5C4AFA-644D-45B3-8450-8CAFE770F64A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A5C4AFA-644D-45B3-8450-8CAFE770F64A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A5C4AFA-644D-45B3-8450-8CAFE770F64A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

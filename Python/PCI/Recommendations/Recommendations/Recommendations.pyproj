@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>9cdd3d10-8d40-4206-8f90-4dbc185b44d1</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Recommendations.py</StartupFile>
+    <StartupFile>recommendations.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -22,7 +22,8 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Recommendations.py" />
+    <Compile Include="pydelicious.py" />
+    <Compile Include="recommendations.py" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

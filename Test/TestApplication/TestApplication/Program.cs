@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -58,14 +59,52 @@ namespace TestApplication
 
         static void Main(string[] args)
         {
-            GenerateSankeyJson();
+            //TestFetchWeibo();
+            string file = @"D:\Git\TestCode\exp\MediaService\TestWordBreaker\TestWordBreaker\SampleTest.txt";
+
+            for (int i = 0; i < 5; i++)
+            {
+                var detecter = new HotNewsDetector(100);
+                detecter.ReadMessages(file);
+                detecter.BreakIntoWindows();
+                detecter.Predict(i, 10);
+                detecter.WriteResult("SampleResult" + i.ToString());
+            }
+
+
+            //GenerateSankeyJson();
             //ReadWeiBoData();
             //ImportWeiboData();
         }
 
-        public static void ImportWeiboData()
+        public static void TryFillfailedData()
         {
-            var path = @"C: \Users\yazha\Downloads\new_weibo_news.sql";
+            var path = @"D:\Git\TestCode\Test\TestApplication\TestApplication\bin\Debug\failedsql.txt";
+            //ImportWeiboData(path);
+            var result = new List<string>();
+            using (var sr = new StreamReader(path))
+            {
+                string line = null;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    var cmdText = line
+                                    .Replace("`", "")
+                                    .Replace("\r\n", "")
+                                    .Replace("),(", ")\r\n INSERT INTO new_weibo_news VALUES (");
+                    result.Add(cmdText);
+
+                }
+
+                File.WriteAllLines("replacedSql.txt", result);
+            }
+
+            var path2 = @"D:\Git\TestCode\Test\TestApplication\TestApplication\bin\Debug\replacedSql.txt";
+            ImportWeiboData(path2);
+        }
+
+        public static void ImportWeiboData(string path)
+        {
+            //var path = @"C: \Users\yazha\Downloads\new_weibo_news.sql";
             var connStr = "server=MCDI01;user=admin;password=Passw0rd!;database=LXHDWeibo";
             var lines = new List<string>();
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -80,13 +119,16 @@ namespace TestApplication
                     string line = null;
                     while ((line = sr.ReadLine()) != null)
                     {
-
-                        if (line.StartsWith("INSERT"))
+                        //if (line.StartsWith("INSERT"))
                         {
                             var cmd = conn.CreateCommand();
                             try
                             {
-                                cmd.CommandText = line.Replace("`", "");
+                                var cmdText = line
+                                    .Replace("`", "")
+                                    .Replace("\r\n", "")
+                                    .Replace("),(", "); INSERT INTO new_weibo_news VALUES (");
+                                cmd.CommandText = cmdText;
                                 cmd.ExecuteNonQuery();
                             }
                             catch (Exception ex)
@@ -94,7 +136,7 @@ namespace TestApplication
                                 lines.Add(cmd.CommandText);
                             }
                         }
-                        
+
                         //if (line.StartsWith("DROP") || line.StartsWith("INSERT") || line.StartsWith("CREATE"))
                         //{
                         //    Console.WriteLine(line);
@@ -102,7 +144,7 @@ namespace TestApplication
                     }
                 }
             }
-            File.WriteAllLines("failedsql.txt", lines);
+            File.WriteAllLines("failedsql22.txt", lines);
         }
 
         public static void ReadWeiBoData()
@@ -134,7 +176,6 @@ namespace TestApplication
                 }
             }
         }
-
 
         public static void GenerateSankeyJson()
         {
@@ -181,5 +222,45 @@ namespace TestApplication
             var json = JsonConvert.SerializeObject(data);
             File.WriteAllText("test.txt", json);
         }
+
+        public static void TestFetchWeibo()
+        {
+            var connStr = "server=MCDI01;user=admin;password=Passw0rd!;database=LXHDWeibo";
+            ReadWeboDataFromDatabase(connStr, "data.txt");
+        }
+
+        public static void ReadWeboDataFromDatabase(string connStr, string path)
+        {
+            //var connStr = "server=MCDI01;user=admin;password=Passw0rd!;database=LXHDWeibo";
+            var lines = new List<string>();
+            using (StreamWriter sw = new StreamWriter(path, false, Encoding.UTF8))
+            {
+                using (SqlConnection conn = new SqlConnection(connStr))
+                {
+                    if (conn.State != System.Data.ConnectionState.Open)
+                    {
+                        conn.Open();
+                    }
+
+                    var cmd = conn.CreateCommand();
+                    cmd.CommandText = "select  weibo_created_at, weibo_text, weibo_id from new_weibo_news order by weibo_created_at";
+
+                    int index = 0;
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            sw.WriteLine(string.Format("{0},{1}, {2}", reader[0].ToString(), reader[1].ToString(), reader[2].ToString()));
+                            index++;
+                            if (index % 1000 == 0)
+                            {
+                                Console.WriteLine(index);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
     }
 }
